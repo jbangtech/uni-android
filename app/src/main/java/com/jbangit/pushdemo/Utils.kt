@@ -11,6 +11,8 @@ import java.io.InputStreamReader
 import java.security.KeyFactory
 import java.security.PublicKey
 import java.security.spec.X509EncodedKeySpec
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 import javax.crypto.Cipher
 import kotlin.reflect.KClass
 
@@ -29,8 +31,10 @@ fun encryptByPublic(context: Context, content: String): String? {
         cipher.init(Cipher.ENCRYPT_MODE, publicKey);
         val plaintext = content.toByteArray();
         val output = cipher.doFinal(plaintext);
-        val str = Base64.encodeToString(output, Base64.DEFAULT);
-        str
+        val str = Base64.encodeToString(output, Base64.DEFAULT)
+        val p: Pattern = Pattern.compile("\\s*|\t|\r|\n")
+        val m: Matcher = p.matcher(str)
+        m.replaceAll("").trim()
     } catch (e: Exception) {
         e.printStackTrace()
         null
