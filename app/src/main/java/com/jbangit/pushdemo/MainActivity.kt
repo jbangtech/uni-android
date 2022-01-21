@@ -1,5 +1,6 @@
 package com.jbangit.pushdemo
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -27,6 +28,9 @@ class MainActivity : AppCompatActivity() {
     val push by lazy { UmengPush.init(this) }
 
     val repo by lazy { TestRepo(this) }
+    val spf by lazy {
+        getSharedPreferences("uni", Context.MODE_PRIVATE)
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,9 +49,14 @@ class MainActivity : AppCompatActivity() {
             }
             pushWithTags(tag)
         }
+        spf.edit().putString("userId","66").apply()
+        userText.setText(spf.getString("userId",""))
 
         userText.addTextChangedListener {
-            UniUserModule.userId = it.toString().trim()
+            val userId = it.toString().trim()
+            Log.e("TAG", "onCreate: $userId" )
+            spf.edit().putString("userId",userId).apply()
+
         }
 
         //检查并更新uni

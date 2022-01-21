@@ -21,6 +21,7 @@ import io.dcloud.feature.barcode2.BarcodeProxy.context
 import io.dcloud.feature.sdk.DCSDKInitConfig
 import io.dcloud.feature.sdk.DCUniMPSDK
 import io.dcloud.feature.sdk.Interface.IDCUniMPAppSplashView
+import io.dcloud.feature.sdk.Interface.IUniMP
 import io.dcloud.feature.uniapp.UniSDKEngine
 import io.dcloud.feature.uniapp.common.UniModule
 import org.json.JSONObject
@@ -43,6 +44,8 @@ object JBUniMini {
     private val shouldOpen = mutableListOf<String>()
 
     private var softReference: SoftReference<Context>? = null
+
+    private val currentUni = mutableMapOf<String,IUniMP>()
 
     /**
      * 可配置升级提示弹框
@@ -199,6 +202,7 @@ object JBUniMini {
                                             if (isShowDialog) {
                                                 loadingDialog?.show()
                                             }
+                                            currentUni[appId]?.closeUniMP()
                                             remoteUni(owner, it, isOpen)
                                         } else {
                                             val path = owner.getContext()
@@ -278,7 +282,7 @@ object JBUniMini {
             if (code == 1) {
                 if (isOpen) {
                     try {
-                        DCUniMPSDK.getInstance()
+                        val uni = DCUniMPSDK.getInstance()
                             .openUniMP(
                                 this,
                                 appId,
@@ -286,6 +290,7 @@ object JBUniMini {
                                 param?.redirectPath,
                                 param?.arguments
                             )
+                        currentUni[appId] = uni
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }
