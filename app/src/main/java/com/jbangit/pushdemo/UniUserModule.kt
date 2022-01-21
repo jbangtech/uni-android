@@ -8,7 +8,7 @@ class UniUserModule : UniModule() {
     @UniJSMethod(uiThread = false)
     fun getUserId(): String {
         val context = mUniSDKInstance.context
-        return encryptByPublic(context, userId)?:""
+        return encryptByPublic(context, userId) ?: ""
     }
 
     companion object {

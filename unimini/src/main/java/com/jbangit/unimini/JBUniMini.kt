@@ -251,14 +251,11 @@ object JBUniMini {
         val context = if (owner is Fragment) context else owner as? Context
         urls.forEach { url ->
             val _appId = getUniAppId(url)
-            val path = context?.getCacheFilePath(uniCacheDir, "${_appId}.wgt")
-            if (path.isNullOrEmpty()) {
-                cacheIng.add(url)
-                context?.fileCache(url, uniCacheDir, "${_appId}.wgt")?.observe(owner) {
-                    cacheIng.remove(url)
-                    val shouldOpen = shouldOpen.remove(url)
-                    context.releaseWgt(url, it, isOpen || shouldOpen)
-                }
+            cacheIng.add(url)
+            context?.fileCache(url, uniCacheDir, "${_appId}.wgt")?.observe(owner) {
+                cacheIng.remove(url)
+                val shouldOpen = shouldOpen.remove(url)
+                context.releaseWgt(url, it, isOpen || shouldOpen)
             }
         }
     }
@@ -277,6 +274,7 @@ object JBUniMini {
         val appId = getUniAppId(url)
         val param: UniOpenParam? = cacheUniParam.remove(appId)
         DCUniMPSDK.getInstance().releaseWgtToRunPathFromPath(appId, path) { code, pArgs ->
+            loadingDialog?.hide()
             if (code == 1) {
                 if (isOpen) {
                     try {
@@ -288,7 +286,6 @@ object JBUniMini {
                                 param?.redirectPath,
                                 param?.arguments
                             )
-                        loadingDialog?.hide()
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }
