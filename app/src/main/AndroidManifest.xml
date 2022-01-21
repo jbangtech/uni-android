@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.jbangit.pushdemo">
+
+    <!-- 百度统计 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+
+
+
+    <!--高德所需权限-->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"></uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"></uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"></uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"></uses-permission>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"></uses-permission>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"></uses-permission>
+    <uses-permission android:name="android.permission.READ_LOGS"></uses-permission>
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+
+
+
+    <application
+        android:allowBackup="false"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:name=".App"
+        android:theme="@style/Theme.Unidemo">
+
+        <!--微信的appId和secret-->
+        <meta-data android:name="WX_APPID" android:value="%微信开放平台申请应用的AppID%">
+        </meta-data>
+        <meta-data android:name="WX_SECRET" android:value="%微信开放平台申请应用的Secret%">
+        </meta-data>
+
+        <!--高德的appId设置-->
+        <meta-data android:name="com.amap.api.v2.apikey" android:value="%appkey_android%"/>
+
+
+        <!-- 您从百度网站获取的APP KEY，根据实际您的APP申请的APP_KEY进行修改 -->
+        <meta-data
+            android:name="BaiduMobAd_STAT_ID"
+            android:value="8d5e823c0e" />
+
+        <!-- 渠道商编号 -->
+        <meta-data
+            android:name="BaiduMobAd_CHANNEL"
+            android:value="Baidu Market" />
+
+        <!-- 是否开启错误日志统计，默认为false -->
+        <meta-data
+            android:name="BaiduMobAd_EXCEPTION_LOG"
+            android:value="true" />
+
+        <!-- 日志仅在wifi网络下发送，默认为false -->
+        <meta-data
+            android:name="BaiduMobAd_ONLY_WIFI"
+            android:value="false" />
+
+        <!-- 是否获取基站位置信息 ,默认为true -->
+        <meta-data
+            android:name="BaiduMobAd_CELL_LOCATION"
+            android:value="true" />
+
+        <!-- 是否获取GPS位置信息，默认为true -->
+        <meta-data
+            android:name="BaiduMobAd_GPS_LOCATION"
+            android:value="true" />
+
+        <!-- 是否获取WIFI位置信息，默认为true -->
+        <meta-data
+            android:name="BaiduMobAd_WIFI_LOCATION"
+            android:value="true" />
+
+
+        <activity
+            android:name="com.jbangit.pushdemo.MainActivity"
+            android:exported="true"
+            android:configChanges="orientation|keyboardHidden|screenSize|mcc|mnc|fontScale"
+            android:hardwareAccelerated="true"
+            android:windowSoftInputMode="adjustResize" android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:label="@string/app_name"
+            android:exported="true"
+            android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+
+        <!-- Statistic(统计)-友盟统计 begin -->
+        <!-- 官方网站：http://www.umeng.com/analytics -->
+        <!-- meta-data节点android:name="UMENG_APPKEY"项中android:value值为友盟网站申请的APPKEY -->
+        <!-- meta-data节点android:name="UMENG_CHANNEL"项中android:value值为发行渠道标识，可任意取值，用于各种发行渠道效果统计 -->
+<!--        <meta-data-->
+<!--            android:name="UMENG_APPKEY"-->
+<!--            android:value="xxxxxxx" />-->
+<!--        <meta-data-->
+<!--            android:name="UMENG_CHANNEL"-->
+<!--            android:value="googleplay" />-->
+        <!-- 友盟统计  配置  end -->
+
+<!--        <provider-->
+<!--            android:name="io.dcloud.common.util.DCloud_FileProvider"-->
+<!--            android:authorities="${apk.applicationId}.dc.fileprovider"-->
+<!--            android:exported="false"-->
+<!--            android:grantUriPermissions="true">-->
+<!--            <meta-data-->
+<!--                android:name="android.support.FILE_PROVIDER_PATHS"-->
+<!--                android:resource="@xml/dcloud_file_provider" />-->
+<!--        </provider>-->
+
+        <!-- Maps(地图) begin -->
+
+<!--        <meta-data-->
+<!--            android:name="com.amap.api.v2.apikey"-->
+<!--            android:value="xxxxxxx" />-->
+<!--        <service android:name="com.amap.api.location.APSService" />-->
+        <!-- Maps(地图) end -->
+
+        <!-- Oauth 授权登陆 start -->
+        <!-- Oauth QQ start -->
+        <!-- QQ 分享 配置和授权登陆相同 -->
+<!--        <meta-data-->
+<!--            android:name="QQ_APPID"-->
+<!--            android:value="xxxxx" />-->
+
+<!--        <activity-->
+<!--            android:name="com.tencent.tauth.AuthActivity"-->
+<!--            android:launchMode="singleTask"-->
+<!--            android:noHistory="true">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.VIEW" />-->
+
+<!--                <category android:name="android.intent.category.DEFAULT" />-->
+<!--                <category android:name="android.intent.category.BROWSABLE" />-->
+
+<!--                <data android:scheme="1104455702" />-->
+<!--            </intent-filter>-->
+<!--        </activity>-->
+<!--        <activity-->
+<!--            android:name="com.tencent.connect.common.AssistActivity"-->
+<!--            android:screenOrientation="portrait"-->
+<!--            android:theme="@android:style/Theme.Translucent.NoTitleBar" />-->
+        <!-- Oauth QQ end -->
+
+        <!-- Share(分享) begin -->
+        <!-- Share - 新浪微博分享 -->
+        <!-- 官方网站：http://open.weibo.com/ -->
+<!--        <meta-data-->
+<!--            android:name="SINA_REDIRECT_URI"-->
+<!--            android:value="http://www.dcloud.io/" />-->
+<!--        <meta-data-->
+<!--            android:name="SINA_SECRET"-->
+<!--            android:value="xxxx" />-->
+<!--        <meta-data-->
+<!--            android:name="SINA_APPKEY"-->
+<!--            android:value="xxxxx" />-->
+        <!-- 分享 -->
+
+<!--        <meta-data-->
+<!--            android:name="WX_SECRET"-->
+<!--            android:value="xxxxx" />-->
+
+<!--        <activity-->
+<!--            android:name=".wxapi.WXEntryActivity"-->
+<!--            android:exported="true"-->
+<!--            android:label="@string/app_name"-->
+<!--            android:launchMode="singleTop">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.VIEW" />-->
+
+<!--                <category android:name="android.intent.category.DEFAULT" />-->
+
+<!--                <data android:scheme="wx0411fa6a39d61297" />-->
+<!--            </intent-filter>-->
+<!--        </activity>-->
+<!--        &lt;!&ndash; 微信分享 配置 end &ndash;&gt;-->
+
+<!--        &lt;!&ndash; 微信支付配置 start &ndash;&gt;-->
+<!--        <activity-->
+<!--            android:name=".wxapi.WXPayEntryActivity"-->
+<!--            android:exported="true"-->
+<!--            android:launchMode="singleTop" />-->
+
+<!--        <meta-data-->
+<!--            android:name="WX_APPID"-->
+<!--            android:value="xxxxx" />-->
+
+        <!-- 微信支付配置end -->
+
+        <!--百度语音识别 start-->
+<!--        <meta-data-->
+<!--            android:name="com.baidu.speech.APP_ID"-->
+<!--            android:value="xxxxx" />-->
+<!--        <meta-data-->
+<!--            android:name="com.baidu.speech.API_KEY"-->
+<!--            android:value="xxxxxxx" />-->
+<!--        <meta-data-->
+<!--            android:name="com.baidu.speech.SECRET_KEY"-->
+<!--            android:value="xxxxxx" />-->
+
+<!--        <service-->
+<!--            android:name="com.baidu.speech.VoiceRecognitionService"-->
+<!--            android:exported="false" />-->
+        <!--百度语音识别 end-->
+
+<!--        <activity-->
+<!--            android:name="io.dcloud.PandoraEntryActivity"-->
+<!--            android:configChanges="orientation|keyboardHidden|screenSize|mcc|mnc|fontScale|keyboard"-->
+<!--            android:hardwareAccelerated="true"-->
+<!--            android:launchMode="singleTask"-->
+<!--            android:permission="com.miui.securitycenter.permission.AppPermissionsEditor"-->
+<!--            android:screenOrientation="user"-->
+<!--            android:theme="@style/DCloudTheme"-->
+<!--            android:windowSoftInputMode="adjustResize">-->
+
+<!--            <intent-filter>-->
+
+<!--                <category android:name="android.intent.category.DEFAULT" />-->
+
+<!--                <category android:name="android.intent.category.BROWSABLE" />-->
+
+<!--                <action android:name="android.intent.action.VIEW" />-->
+
+<!--                <data android:scheme="h56131bcf" />-->
+<!--            </intent-filter>-->
+<!--        </activity>-->
+
+    </application>
+
+</manifest>

@@ -1,0 +1,134 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-parcelize'
+    id 'kotlin-kapt'
+}
+
+def app_name = "unidemo"
+def signing_key_password = "w9cyltlfGf4s@zj@"
+
+def renameAPK(variant, defaultConfig, appName, versionName) {
+    variant.outputs.all {
+        def formattedDate = new Date().format('MMddHHmm')
+        def fileName = appName + "-${variant.name}-" + formattedDate + "-${versionName}.apk"
+        outputFileName = fileName
+    }
+}
+
+
+def mfph = [
+        //包名
+        "apk.applicationId" : "com.jbangit.pushdemo",
+]
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.3"
+    defaultConfig {
+        applicationId "com.jbangit.pushdemo"
+        minSdkVersion 21 // uniapp必须是19及以上
+        targetSdkVersion 29 //最高28最优26 设置值域超过28可能在android10以上手机出现白屏问题。
+        versionCode 1
+        versionName "1.0"
+        multiDexEnabled true
+        ndk {
+            abiFilters 'x86','armeabi-v7a',"arm64-v8a" //不支持armeabi
+        }
+        manifestPlaceholders = mfph
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    signingConfigs {
+        release {
+            storeFile file("../project.jks")
+            storePassword "$signing_key_password"
+            keyAlias "$app_name"
+            keyPassword "$signing_key_password"
+            applicationVariants.all { variant ->
+                if (variant.buildType.name == "release") {
+                    renameAPK(variant, defaultConfig, "$app_name", versionName)
+                }
+            }
+        }
+
+        debug {
+            storeFile file("../project.jks")
+            storePassword "$signing_key_password"
+            keyAlias "$app_name"
+            keyPassword "$signing_key_password"
+            applicationVariants.all { variant ->
+                if (variant.buildType.name == "debug") {
+                    renameAPK(variant, defaultConfig, "$app_name", versionName)
+                }
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            signingConfig signingConfigs.debug
+        }
+    }
+
+    //此处配置必须添加 否则无法正确运行
+    aaptOptions {
+        additionalParameters '--auto-add-overlay'
+        //noCompress 'foo', 'bar'
+        ignoreAssetsPattern "!.svn:!.git:.*:!CVS:!thumbs.db:!picasa.ini:!*.scc:*~"
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+//导入aar需要的配置
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.aar'], dir: 'libs')
+
+    implementation 'androidx.core:core-ktx:1.6.0'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'com.google.android.material:material:1.4.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.2'
+    testImplementation 'junit:junit:4.+'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+//    implementation(name: 'uniapp-v8-release', ext: 'aar')
+//    implementation(name: 'uniMPSDK-V2-release', ext: 'aar')
+//    implementation(name: 'oaid_sdk_1.0.25', ext: 'aar')
+//    implementation(name: 'android-gif-drawable-release@1.2.23', ext: 'aar')
+
+    api "androidx.lifecycle:lifecycle-livedata-ktx:2.3.1"
+
+    api "org.jetbrains.kotlin:kotlin-reflect:1.5.21"
+
+
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.8'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0'
+
+    implementation 'com.baidu.mobstat:mtj-sdk:latest.integration'
+
+    //友盟基础库依赖（必须）
+    api 'com.umeng.umsdk:common:9.4.4'
+    api 'com.umeng.umsdk:asms:1.5.0'
+    //友盟Push依赖
+    api 'com.umeng.umsdk:push:6.4.4'
+
+    api project(":unimini")
+
+}
