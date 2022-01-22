@@ -50,7 +50,7 @@
         </meta-data>
 
         <!--高德的appId设置-->
-        <meta-data android:name="com.amap.api.v2.apikey" android:value="%appkey_android%"/>
+        <meta-data android:name="com.amap.api.v2.apikey" android:value="59cafe7152d4eaa11f52323d9d7334e0"/>
 
 
         <!-- 您从百度网站获取的APP KEY，根据实际您的APP申请的APP_KEY进行修改 -->
