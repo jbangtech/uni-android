@@ -202,9 +202,9 @@ object JBUniMini {
                                             if (isShowDialog) {
                                                 loadingDialog?.show()
                                             }
-                                            if (!isOpen) {
-                                                showToast("监测到新版本，正在更新")
-                                            }
+//                                            if (!isOpen) {
+//                                                showToast("监测到新版本，正在更新")
+//                                            }
                                             currentUni[appId]?.closeUniMP()
                                             remoteUni(owner, it, isOpen)
                                         } else {
@@ -267,9 +267,9 @@ object JBUniMini {
             context?.fileCache(url, uniCacheDir, "${_appId}.wgt")?.observe(owner) {
                 cacheIng.remove(url)
                 val shouldOpen = shouldOpen.remove(url)
-                if (!isOpen) {
-                    owner.getContext()?.showToast("更新成功")
-                }
+//                if (!isOpen) {
+//                    owner.getContext()?.showToast("更新成功")
+//                }
                 context.releaseWgt(url, it, isOpen || shouldOpen)
             }
         }
