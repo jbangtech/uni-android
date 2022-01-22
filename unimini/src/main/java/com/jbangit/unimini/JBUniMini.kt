@@ -45,7 +45,7 @@ object JBUniMini {
 
     private var softReference: SoftReference<Context>? = null
 
-    private val currentUni = mutableMapOf<String,IUniMP>()
+    private val currentUni = mutableMapOf<String, IUniMP>()
 
     /**
      * 可配置升级提示弹框
@@ -202,6 +202,9 @@ object JBUniMini {
                                             if (isShowDialog) {
                                                 loadingDialog?.show()
                                             }
+                                            if (!isOpen) {
+                                                showToast("监测到新版本，正在更新")
+                                            }
                                             currentUni[appId]?.closeUniMP()
                                             remoteUni(owner, it, isOpen)
                                         } else {
@@ -236,14 +239,19 @@ object JBUniMini {
     /**
      * 更新缓存的uni
      * 会遍历缓存的目录，将需要升级的uni进行升级
+     * @param defAppId 当首次本地没有uni时，需要设置默认的uniappid才能进行静默安装
      */
-    fun upgradeCacheUni(owner: LifecycleOwner) {
+    fun upgradeCacheUni(owner: LifecycleOwner, defAppId: String? = null) {
         owner.getContext()?.let { FileCache.init(it) }
         val file = FileCache.getCacheDir(uniCacheDir)
         if (file.isDirectory) {
-            file.list().forEach {
-                val (appId, _) = it.split(".")
-                requestUni(owner, appId)
+            if (file.list().isEmpty()) {
+                defAppId?.let { requestUni(owner, it) }
+            } else {
+                file.list().forEach {
+                    val (appId, _) = it.split(".")
+                    requestUni(owner, appId)
+                }
             }
         }
     }
@@ -259,6 +267,9 @@ object JBUniMini {
             context?.fileCache(url, uniCacheDir, "${_appId}.wgt")?.observe(owner) {
                 cacheIng.remove(url)
                 val shouldOpen = shouldOpen.remove(url)
+                if (!isOpen) {
+                    owner.getContext()?.showToast("更新成功")
+                }
                 context.releaseWgt(url, it, isOpen || shouldOpen)
             }
         }

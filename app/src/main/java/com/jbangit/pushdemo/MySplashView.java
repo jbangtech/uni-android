@@ -6,6 +6,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import io.dcloud.feature.sdk.Interface.IDCUniMPAppSplashView;
@@ -16,15 +17,16 @@ public class MySplashView implements IDCUniMPAppSplashView {
     @Override
     public View getSplashView(Context context, String appid, String s1, String s2) {
         splashView = new FrameLayout(context);
-        splashView.setBackgroundColor(Color.BLUE);
-        TextView textView = new TextView(context);
-        textView.setText(appid);
-        textView.setTextColor(Color.WHITE);
-        textView.setTextSize(20);
-        textView.setGravity(Gravity.CENTER);
+        splashView.setBackgroundColor(Color.WHITE);
+        ProgressBar bar = new ProgressBar(context);
+//        TextView textView = new TextView(context);
+//        textView.setText(appid);
+//        textView.setTextColor(Color.WHITE);
+//        textView.setTextSize(20);
+//        textView.setGravity(Gravity.CENTER);
         FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 100);
         lp.gravity = Gravity.CENTER;
-        splashView.addView(textView, lp);
+        splashView.addView(bar, lp);
         return splashView;
     }
 

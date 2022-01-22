@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         //检查并更新uni
-        JBUniMini.upgradeCacheUni(this)
+        JBUniMini.upgradeCacheUni(this,"__UNI__4516E07")
 
 
         repo.getAliasAndTags().enqueue(object : Callback<Result<AliasAndTags>> {
