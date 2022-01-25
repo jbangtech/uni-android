@@ -44,3 +44,5 @@ gradlew.bat
 account.gradle
 localUpload.gradle
 *.log
+secring.gpg
+gradle.properties

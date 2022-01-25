@@ -90,3 +90,12 @@ class App : android.app.Application {
     fun upgradeCacheUni(owner: LifecycleOwner)
 ```
 
+由于在gradle.properties中使用了敏感信息，所以在远程不会存在该文件，需要创建，并加入以下下内容：
+```
+org.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8
+android.useAndroidX=true
+android.enableJetifier=true
+kotlin.code.style=official
+```
+
+
